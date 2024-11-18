@@ -1,0 +1,112 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #43bdcd93;
+}
+
+.game{
+    display: grid;
+    grid-template-columns: 100px 100px 100px 100px 100px;
+    grid-template-rows: 100px 100px 100px 100px 100px;
+    gap: 20px;
+}
+
+.card{
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+}
+
+.front-card, .back-card{
+    width: 100%;
+    height: 100%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute; 
+    backface-visibility: hidden; 
+    box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+} 
+.flip{
+    transform: rotateY(180deg);
+}
+
+.front-card{
+    pointer-events: none;
+    background-color: #fff;
+    transform: rotateY(180deg)
+}
+
+.back-card{
+    color: #f9c80e;
+    pointer-events: none;
+    font-size: 80px;
+    background-color: #662e9b;
+}
+
+.flip{
+    transform:rotateY(180deg) ;
+}
+
+.right{
+    transform: rotateY(180deg);    
+}
+
+.refresh-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none; 
+    opacity: 0;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.refresh-page.show{
+    pointer-events: auto;
+    opacity: 1;
+}
+
+.popup{
+    background-color: #fff;
+    padding: 20px;
+    width: 300px;
+    border-radius: 10px;
+}
+
+.popup h1{
+    font-size: 1.5rem;
+    font-family: "Poppins", sans-serif;
+}
+
+.popup button{
+    cursor: pointer;
+    width: 100%;
+    margin: 20px 0;
+    padding: 5px;
+    font-size: 1.1rem;
+    background-color: #43bdcd;
+    color: #fff;
+    border: none;
+    box-shadow: 0px 5px 2px 0px rgba(0, 0, 0, 0.3);
+}
+
+.popup button:active{
+    box-shadow: 0px 0px 0px rgba(0 , 0, 0, 0);
+    transform: translateY(5px);
+}
