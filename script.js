@@ -1,81 +1,51 @@
-const game = document.querySelector(".game");
-const array = ["./images/bootstrap.png","./images/css.png","./images/electron.png","./images/firebase.png","./images/html.png","./images/javascript.png","./images/jquery.png","./images/mongo.png","./images/node.png","./images/react.png"];
-const images =[...array, ...array];
-let flipOne = "";
-let flipTwo = "";
-let win = "";
-const winPage = document.querySelector(".refresh-page");
-const winBtn = winPage.querySelector(".popup button");
+const cards = document.querySelectorAll(".card")
+let comparisonCards = [];
+let score = 0
 
-initGame();
-setInterval(isWin, 1000);
+function flipMethod(cardEl){
+    cardEl.classList.add("flip")
+    cardEl.style.pointerEvents = "none"
+    comparisonCards.push(cardEl.classList[1]) //Provisory array to compare the flipped cards
+}
 
-function createCard(cardImg){
-    return`        
-    <div class="card">
-        <div class="front-card">
-            <img src=${cardImg} alt="" class="card-image">
-        </div>
-        <div class="back-card">
-            &quest;
-        </div>
-    </div>` 
-};   
-function initGame(){  
-    images.sort(() => Math.random() -0.5)
-    for(let i = 0; i < images.length; i++){
-        game.innerHTML += createCard(images[i]);
-    }
-};
-const card = document.querySelectorAll(".card");
-card.forEach(element =>{
-    element.addEventListener("click", e =>{
-        if(flipOne == "" && flipTwo == ""){
-            e.target.classList.add("flip");
-            flipOne = e.target.children[0].children[0].src;
-        }else if(!flipOne == "" && flipTwo == ""){
-            e.target.classList.add("flip");
-            flipTwo = e.target.children[0].children[0].src;
+cards.forEach(card => {
+    card.onclick = () =>{   
+        flipMethod(card)
+        if(comparisonCards.length == 2){
+            for(let i = 0; i < cards.length; i++){
+                cards[i].style.pointerEvents = 'none'
+            }
+            setTimeout(()=>{
+                checkHit() //Compares two flipped cards, if not equal, clear data and unflipped then
+                if(score == 10){
+                    showWinner()
+                }
+            }, 500)
+        }      
+    }   
+})
+
+function checkHit(){
+    if(comparisonCards[0] == comparisonCards[1]){
+        score++
+        document.querySelectorAll(`.${comparisonCards[0]}`)[0].classList.add("right")
+        document.querySelectorAll(`.${comparisonCards[0]}`)[1].classList.add("right")
+        comparisonCards = []
+        for(let i = 0; i < cards.length; i++){
+            if(!cards[i].classList.contains("right")){
+                cards[i].style.pointerEvents = 'auto'
+                cards[i].classList.remove("flip")
+            }
         }
-    });
-    element.addEventListener("click", removeFlip)
-});
-function removeFlip(){
-    if(!flipOne == "" && !flipTwo == ""){
-        if(flipOne !== flipTwo){
-            setTimeout(()=>{
-                wrong()
-                flipOne = "";
-                flipTwo = "";
-            }, 500);
-        }else if(flipOne === flipTwo){
-            setTimeout(()=>{
-                right()
-                flipOne = "";
-                flipTwo = "";
-                win++
-            }, 500);
-        };       
-    };
-};
-function wrong(){
-    for(let i = 0; i < card.length; i++){
-        if(!card[i].classList.contains("right")){
-            card[i].classList.remove("flip"); 
-        };
-    };
-};
-function right(){
-    for(let i = 0; i < card.length; i++){
-        card[i].classList.replace("flip","right");
-    };
-};
-function isWin(){
-    if(win == card.length/2){
-        winPage.classList.add("show"); 
-    };
-};
-winBtn.addEventListener("click", ()=>{;
-    window.location.reload();
-    win == "";
-});
+    } else {
+        for(let i = 0; i < cards.length; i++){
+            if(!cards[i].classList.contains("right")){            
+                cards[i].classList.remove("flip")
+                cards[i].style.pointerEvents = 'auto'
+            }
+        }
+        comparisonCards = []
+    } 
+}
+
+
