@@ -3,6 +3,9 @@ const array = ["./images/bootstrap.png","./images/css.png","./images/electron.pn
 const images =[...array, ...array];
 const winPage = document.querySelector(".refresh-page");
 const winBtn = winPage.querySelector(".popup button");
+const winnerMsg = winPage.querySelector(".popup h1");
+const timer = document.querySelector("#timer-p")
+
 
 function createCard(cardImg){
     let cardClass = cardImg.slice(9).slice(0, -4)
@@ -19,7 +22,8 @@ function createCard(cardImg){
 function initGame(){  
     images.sort(() => Math.random() -0.5)
     for(let i = 0; i < images.length; i++){
-        game.innerHTML += createCard(images[i]);
+        const cardsHTML = images.map(createCard).join("")
+        game.innerHTML = cardsHTML
     }
 };
 
@@ -30,4 +34,7 @@ function showWinner(){
     }
 }
 
+
+
 initGame()
+
