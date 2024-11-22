@@ -6,7 +6,6 @@ const winBtn = winPage.querySelector(".popup button");
 const winnerMsg = winPage.querySelector(".popup h1");
 const timer = document.querySelector("#timer-p")
 
-
 function createCard(cardImg){
     let cardClass = cardImg.slice(9).slice(0, -4)
     return`        
@@ -33,8 +32,6 @@ function showWinner(){
         location.reload()
     }
 }
-
-
 
 initGame()
 

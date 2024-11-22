@@ -26,12 +26,11 @@ cards.forEach(card => {
             timerFunc()
             setInterval(timerFunc, 1000)
         } 
-        
 
         if(comparisonCards.length == 2){
-            for(let i = 0; i < cards.length; i++){
-                cards[i].style.pointerEvents = 'none'
-            }
+            processCards(card => {
+                card.style.pointerEvents = 'none'; // Bloqueia interações
+            });
             setTimeout(()=>{
                 checkHit() //Compares two flipped cards, if not equal, clear data and unflipped then
                 if(score == 10){
@@ -43,24 +42,30 @@ cards.forEach(card => {
     }   
 })
 
+function processCards(callback) {
+    for (let i = 0; i < cards.length; i++) {
+        callback(cards[i]); 
+    }
+}
+
 function checkHit(){
     if(comparisonCards[0] == comparisonCards[1]){
         score++
         document.querySelectorAll(`.${comparisonCards[0]}`)[0].classList.add("right")
         document.querySelectorAll(`.${comparisonCards[0]}`)[1].classList.add("right")
-        for(let i = 0; i < cards.length; i++){
-            if(!cards[i].classList.contains("right")){
-                cards[i].style.pointerEvents = 'auto'
-                cards[i].classList.remove("flip")
+        processCards(card=> {
+            if(!card.classList.contains("right")){            
+                card.classList.remove("flip")
+                card.style.pointerEvents = 'auto'
             }
-        }
+        })
     } else {
-        for(let i = 0; i < cards.length; i++){
-            if(!cards[i].classList.contains("right")){            
-                cards[i].classList.remove("flip")
-                cards[i].style.pointerEvents = 'auto'
+        processCards(card=> {
+            if(!card.classList.contains("right")){            
+                card.classList.remove("flip")
+                card.style.pointerEvents = 'auto'
             }
-        }
+        })
     } 
     comparisonCards = []
 }
